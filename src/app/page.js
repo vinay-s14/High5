@@ -10,5 +10,5 @@ export default function Home() {
 
 export const metadata = {
   title: 'Space Biology Publications',
-  description: 'Browse NASA space biology research publications',
+  description: 'Browse space biology research publications',
 };
