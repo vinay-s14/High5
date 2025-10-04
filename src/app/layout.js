@@ -1,4 +1,5 @@
 import './globals.css';
+import FloatingChatbot from '../components/FloatingChatbot';
 
 export const metadata = {
   title: {
@@ -13,6 +14,8 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body>
         {children}</body>
+              <FloatingChatbot/>
+
     </html>
   );
 }
