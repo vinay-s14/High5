@@ -4,43 +4,43 @@ import { useState } from 'react';
 export default function AIInsightsPanel({ publication }) {
   const [summary, setSummary] = useState('');
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
 
-  const fetchAISummary = async () => {
+  const generateSummary = async () => {
+    if (!publication?.source_url) {
+      setSummary("No URL available for this publication");
+      return;
+    }
+
     setLoading(true);
-    setError('');
     try {
-      const response = await fetch('/api/aiSummary', {
+      const res = await fetch('/api/aiSummary', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ publicationText: publication.abstract || publication.title }),
+        body: JSON.stringify({ source_url: publication.source_url }),
       });
-
-      if (!response.ok) throw new Error('Failed to fetch AI summary');
-
-      const data = await response.json();
-      setSummary(data.summary);
+      const data = await res.json();
+      setSummary(data.summary || "No summary available");
     } catch (err) {
-      setError(err.message);
+      setSummary("Error generating summary");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="bg-gray-50 p-4 border border-gray-200 rounded-lg mt-4">
-      <h3 className="text-lg font-semibold mb-2">AI Insights</h3>
+    <div className="mt-6">
       <button
-        onClick={fetchAISummary}
-        className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 mb-2"
+        onClick={generateSummary}
+        disabled={loading}
+        className="px-4 py-2 bg-cyan-500 text-white rounded hover:bg-cyan-600 transition"
       >
-        Generate Summary
+        {loading ? "Generating Summary..." : "Generate Summary"}
       </button>
 
-      {loading && <p>Loading AI summary...</p>}
-      {error && <p className="text-red-500">{error}</p>}
       {summary && (
-        <div className="mt-2 text-gray-700 whitespace-pre-line">{summary}</div>
+        <div className="mt-4 p-4 bg-gray-100 rounded shadow whitespace-pre-wrap">
+          {summary}
+        </div>
       )}
     </div>
   );

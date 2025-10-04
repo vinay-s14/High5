@@ -1,14 +1,11 @@
 'use client';
-
 import AIInsightsPanel from './AIInsightsPanel';
 
 export default function PublicationDetails({ publication }) {
   return (
     <div className="max-w-4xl mx-auto bg-white p-6 rounded-lg shadow-md mt-6">
-      {/* Publication Title */}
-      <h1 className="text-3xl font-bold text-gray-800 mb-4">{publication.title}</h1>
+      <h1 className="text-3xl font-bold mb-4">{publication.title || "Untitled Publication"}</h1>
 
-      {/* Publication Metadata */}
       <div className="flex flex-wrap gap-4 mb-4 text-sm text-gray-600">
         {publication.pmcid && (
           <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded">
@@ -27,7 +24,6 @@ export default function PublicationDetails({ publication }) {
         )}
       </div>
 
-      {/* Abstract / Content */}
       {publication.abstract && (
         <div className="mb-6 text-gray-700 leading-relaxed">
           <h2 className="text-xl font-semibold mb-2">Abstract</h2>
@@ -37,9 +33,6 @@ export default function PublicationDetails({ publication }) {
 
       {/* AI Insights Panel */}
       <AIInsightsPanel publication={publication} />
-
-      {/* Optional: Additional details can go here */}
-      {/* Example: authors, year, experiment type, dataset links */}
     </div>
   );
 }
